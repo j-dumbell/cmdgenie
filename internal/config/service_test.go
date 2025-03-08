@@ -50,9 +50,25 @@ func TestService_Load(t *testing.T) {
 	actual, err := service.Load()
 	require.NoError(t, err, "Load should not error")
 
-	expected := &Config{
+	expected := Config{
 		OpenAIAPIKey: ToPtr("abc"),
 		DefaultModel: ToPtr(openai.ChatModelGPT4oMini),
+	}
+
+	assert.Equal(t, expected, actual)
+}
+
+func TestService_Load_fileNotExists(t *testing.T) {
+	dir := t.TempDir()
+	filePath := fmt.Sprintf("%s/file.json", dir)
+	service := NewService(filePath)
+
+	actual, err := service.Load()
+	require.NoError(t, err, "Load should not error")
+
+	expected := Config{
+		OpenAIAPIKey: nil,
+		DefaultModel: nil,
 	}
 
 	assert.Equal(t, expected, actual)

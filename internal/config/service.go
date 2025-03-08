@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"errors"
 	"os"
 
 	"github.com/openai/openai-go"
@@ -20,19 +21,22 @@ func NewService(filePath string) Service {
 	return Service{filePath: filePath}
 }
 
-func (service *Service) Load() (*Config, error) {
+func (service *Service) Load() (Config, error) {
 	file, err := os.Open(service.filePath)
+	if errors.Is(err, os.ErrNotExist) {
+		return Config{}, nil
+	}
 	if err != nil {
-		return nil, err
+		return Config{}, err
 	}
 	defer file.Close()
 
 	var config Config
 	if err := json.NewDecoder(file).Decode(&config); err != nil {
-		return nil, err
+		return Config{}, err
 	}
 
-	return &config, nil
+	return config, nil
 }
 
 func (service *Service) Save(config Config) error {

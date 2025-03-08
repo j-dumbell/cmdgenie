@@ -8,6 +8,7 @@ import (
 	"github.com/j-dumbell/cmdgenie/internal/chatcontext"
 	"github.com/j-dumbell/cmdgenie/internal/config"
 	"github.com/j-dumbell/cmdgenie/internal/llm"
+	"github.com/manifoldco/promptui"
 	"github.com/openai/openai-go"
 	"github.com/urfave/cli/v3"
 )
@@ -68,14 +69,46 @@ func NewApp(configService config.Service) cli.Command {
 						promptContext = chatcontext.Verbose
 					}
 
-					model := llm.NewOpenAIModel(*cfg.OpenAIAPIKey, cmd.String(modelFlag.Name))
-					response, err := model.Ask(ctx, promptContext, prompt)
+					openAIClient := llm.NewOpenAIClient(*cfg.OpenAIAPIKey)
+					response, err := openAIClient.Ask(ctx, cmd.String(modelFlag.Name), promptContext, prompt)
 					if err != nil {
 						return err
 					}
 
 					fmt.Println(response)
 					return nil
+				},
+			},
+			{
+				Name:  "configure",
+				Usage: "Configure OpenAI API key and default model",
+				Action: func(ctx context.Context, cmd *cli.Command) error {
+					modelSelect := promptui.Select{
+						Label: "Select model",
+						Items: llm.Models,
+						Size:  len(llm.Models),
+					}
+
+					_, model, err := modelSelect.Run()
+					if err != nil {
+						return err
+					}
+
+					apiKeyPrompt := promptui.Prompt{
+						Label: "Enter OpenAI API key",
+						Mask:  '*',
+					}
+
+					apiKey, err := apiKeyPrompt.Run()
+					if err != nil {
+						return err
+					}
+
+					config := config.Config{
+						OpenAIAPIKey: &apiKey,
+						DefaultModel: &model,
+					}
+					return configService.Save(config)
 				},
 			},
 		},
