@@ -64,7 +64,7 @@ func TestApp_ask(t *testing.T) {
 	}
 	assert.Equal(t, expected, (*calls)[0], "expected call")
 
-	assert.Equal(t, response, outputBuffer.String(), "output")
+	assert.Equal(t, response+"\n", outputBuffer.String(), "output")
 }
 
 func TestApp_list_models(t *testing.T) {
