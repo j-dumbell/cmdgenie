@@ -1,6 +1,6 @@
 module github.com/j-dumbell/cmdgenie
 
-go 1.22.3
+go 1.24.0
 
 require (
 	github.com/manifoldco/promptui v0.9.0
