@@ -1,20 +1,24 @@
 # cmdgenie
 ![Build](https://github.com/j-dumbell/cmdgenie/actions/workflows/build.yml/badge.svg)
 
-cmdgenie is an AI-powered assistant for generating shell commands from the comfort of your command line. 
+![GitHub Release](https://img.shields.io/github/v/release/j-dumbell/cmdgenie)
+
+<img src="assets/mascot.webp" alt="Mascot" width="300">
+
+cmdgenie is an AI-powered assistant for generating shell commands from the comfort of your command line.
 
 
 ## Installation
+
+### Via GitHub releases
+Download the binary for the approiate OS and architecture directly from [GitHub Releases](https://github.com/j-dumbell/cmdgenie/releases).
 
 ### Via Go
 1. [Install Go](https://go.dev/doc/install) version >1.22.3
 2. Install via `go install`:
     ```shell
-    go install github.com/j-dumbell/cmdgenie/cmd/cli@latest
+    go install github.com/j-dumbell/cmdgenie@latest
     ```
-   
-### GitHub releases
-ToDo
 
 ### From source
 1. [Install Go](https://go.dev/doc/install) version >1.22.3
