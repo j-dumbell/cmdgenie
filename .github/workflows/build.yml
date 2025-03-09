@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.22.3'
+
+    - name: Install dependencies
+      run: go mod tidy
+
+    - name: Test
+      run: go test -v ./...
+
+    - name: Lint check
+      uses: golangci/golangci-lint-action@v6
+      with:
+        version: v1.64
+
+    - name: Build CLI
+      run: |
+        GOOS=linux GOARCH=amd64 go build -o bin/cmdgenie-linux-amd64 cmd/cli/main.go
+        GOOS=darwin GOARCH=amd64 go build -o bin/cmdgenie-darwin-amd64 cmd/cli/main.go
+        GOOS=windows GOARCH=amd64 go build -o bin/cmdgenie-windows-amd64.exe cmd/cli/main.go
