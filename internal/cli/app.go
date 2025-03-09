@@ -36,7 +36,33 @@ var (
 	}
 )
 
-func NewApp(configService config.Service) cli.Command {
+var (
+	ModelSelect = promptui.Select{
+		Label: "Select model",
+		Items: llm.Models,
+		Size:  len(llm.Models),
+	}
+
+	ApiKeyPrompt = promptui.Prompt{
+		Label: "Enter OpenAI API key",
+		Mask:  '*',
+	}
+)
+
+type TextPrompter interface {
+	Run() (string, error)
+}
+
+type SelectPrompter interface {
+	Run() (int, string, error)
+}
+
+func NewApp(
+	configService config.Service,
+	openAIClientFactory OpenAIClientFactory,
+	modelPrompter SelectPrompter,
+	apiKeyPrompter TextPrompter,
+) cli.Command {
 	return cli.Command{
 		Name:  "cmdgenie",
 		Usage: "Generate shell commands using AI",
@@ -69,7 +95,7 @@ func NewApp(configService config.Service) cli.Command {
 						promptContext = chatcontext.Verbose
 					}
 
-					openAIClient := llm.NewOpenAIClient(*cfg.OpenAIAPIKey)
+					openAIClient := openAIClientFactory(*cfg.OpenAIAPIKey)
 					response, err := openAIClient.Ask(ctx, cmd.String(modelFlag.Name), promptContext, prompt)
 					if err != nil {
 						return err
@@ -83,23 +109,12 @@ func NewApp(configService config.Service) cli.Command {
 				Name:  "configure",
 				Usage: "Configure OpenAI API key and default model",
 				Action: func(ctx context.Context, cmd *cli.Command) error {
-					modelSelect := promptui.Select{
-						Label: "Select model",
-						Items: llm.Models,
-						Size:  len(llm.Models),
-					}
-
-					_, model, err := modelSelect.Run()
+					_, model, err := modelPrompter.Run()
 					if err != nil {
 						return err
 					}
 
-					apiKeyPrompt := promptui.Prompt{
-						Label: "Enter OpenAI API key",
-						Mask:  '*',
-					}
-
-					apiKey, err := apiKeyPrompt.Run()
+					apiKey, err := apiKeyPrompter.Run()
 					if err != nil {
 						return err
 					}

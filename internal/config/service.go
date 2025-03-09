@@ -13,6 +13,7 @@ type Config struct {
 	DefaultModel *openai.ChatModel `json:"defaultModel"`
 }
 
+// Service handles saving and loading config from file.
 type Service struct {
 	filePath string
 }
