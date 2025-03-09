@@ -4,6 +4,11 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Git tag to create a release for'
+        required: true
 
 permissions:
   contents: write
