@@ -19,10 +19,10 @@ jobs:
         go-version: '1.22.3'
 
     - name: Install dependencies
-      run: go mod tidy
+      run: make deps
 
     - name: Test
-      run: go test -v ./...
+      run: make test
 
     - name: Lint check
       uses: golangci/golangci-lint-action@v6
@@ -30,7 +30,4 @@ jobs:
         version: v1.64
 
     - name: Build CLI
-      run: |
-        GOOS=linux GOARCH=amd64 go build -o bin/cmdgenie-linux-amd64 cmd/cli/main.go
-        GOOS=darwin GOARCH=amd64 go build -o bin/cmdgenie-darwin-amd64 cmd/cli/main.go
-        GOOS=windows GOARCH=amd64 go build -o bin/cmdgenie-windows-amd64.exe cmd/cli/main.go
+      run: make build
