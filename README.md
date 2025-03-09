@@ -1,6 +1,5 @@
 # cmdgenie
 ![Build](https://github.com/j-dumbell/cmdgenie/actions/workflows/build.yml/badge.svg)
-
 ![GitHub Release](https://img.shields.io/github/v/release/j-dumbell/cmdgenie)
 
 <img src="assets/mascot.webp" alt="Mascot" width="300">
