@@ -7,7 +7,7 @@ import (
 )
 
 type OpenAIClient interface {
-	Ask(ctx context.Context, model openai.ChatModel, promptContext string, prompt string) (string, error)
+	Ask(ctx context.Context, model openai.ChatModel, systemMsg string, msg string) (string, error)
 }
 
 type OpenAIClientFactory func(apiKey string) OpenAIClient

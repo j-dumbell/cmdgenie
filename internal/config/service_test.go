@@ -6,6 +6,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/j-dumbell/cmdgenie/internal/util"
 	"github.com/openai/openai-go"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -17,8 +18,8 @@ func TestService_Save(t *testing.T) {
 	service := NewService(filePath)
 
 	config := Config{
-		OpenAIAPIKey: ToPtr("abc123"),
-		DefaultModel: ToPtr(openai.ChatModelGPT4oMini),
+		OpenAIAPIKey: util.ToPtr("abc123"),
+		DefaultModel: util.ToPtr(openai.ChatModelGPT4oMini),
 	}
 
 	err := service.Save(config)
@@ -51,8 +52,8 @@ func TestService_Load(t *testing.T) {
 	require.NoError(t, err, "Load should not error")
 
 	expected := Config{
-		OpenAIAPIKey: ToPtr("abc"),
-		DefaultModel: ToPtr(openai.ChatModelGPT4oMini),
+		OpenAIAPIKey: util.ToPtr("abc"),
+		DefaultModel: util.ToPtr(openai.ChatModelGPT4oMini),
 	}
 
 	assert.Equal(t, expected, actual)
@@ -72,8 +73,4 @@ func TestService_Load_fileNotExists(t *testing.T) {
 	}
 
 	assert.Equal(t, expected, actual)
-}
-
-func ToPtr[T any](t T) *T {
-	return &t
 }

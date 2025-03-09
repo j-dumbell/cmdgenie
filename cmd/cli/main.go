@@ -23,7 +23,7 @@ func main() {
 		return &client
 	}
 
-	app := cli.NewApp(configService, openAIFactory, &cli.ModelSelect, &cli.ApiKeyPrompt)
+	app := cli.NewApp(configService, openAIFactory, &cli.ModelSelect, &cli.ApiKeyPrompt, os.Stdout)
 
 	if err := app.Run(context.Background(), os.Args); err != nil {
 		fmt.Printf("Error: %s\n", err.Error())

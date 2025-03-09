@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
+	"strings"
 
 	"github.com/j-dumbell/cmdgenie/internal/chatcontext"
 	"github.com/j-dumbell/cmdgenie/internal/config"
@@ -49,19 +51,12 @@ var (
 	}
 )
 
-type TextPrompter interface {
-	Run() (string, error)
-}
-
-type SelectPrompter interface {
-	Run() (int, string, error)
-}
-
 func NewApp(
 	configService config.Service,
 	openAIClientFactory OpenAIClientFactory,
 	modelPrompter SelectPrompter,
 	apiKeyPrompter TextPrompter,
+	outputWriter io.Writer,
 ) cli.Command {
 	return cli.Command{
 		Name:  "cmdgenie",
@@ -101,7 +96,7 @@ func NewApp(
 						return err
 					}
 
-					fmt.Println(response)
+					fmt.Fprintln(outputWriter, response)
 					return nil
 				},
 			},
@@ -124,6 +119,14 @@ func NewApp(
 						DefaultModel: &model,
 					}
 					return configService.Save(config)
+				},
+			},
+			{
+				Name:  "list-models",
+				Usage: "List all available models",
+				Action: func(ctx context.Context, cmd *cli.Command) error {
+					fmt.Fprintln(outputWriter, strings.Join(llm.Models, "\n"))
+					return nil
 				},
 			},
 		},

@@ -18,11 +18,11 @@ func NewOpenAIClient(apiKey string) OpenAIClient {
 	}
 }
 
-func (client *OpenAIClient) Ask(ctx context.Context, model openai.ChatModel, promptContext string, prompt string) (string, error) {
+func (client *OpenAIClient) Ask(ctx context.Context, model openai.ChatModel, systemMsg string, msg string) (string, error) {
 	chatCompletion, err := client.client.Chat.Completions.New(ctx, openai.ChatCompletionNewParams{
 		Messages: openai.F([]openai.ChatCompletionMessageParamUnion{
-			openai.SystemMessage(promptContext),
-			openai.UserMessage(prompt),
+			openai.SystemMessage(systemMsg),
+			openai.UserMessage(msg),
 		}),
 		Model: openai.F(model),
 	})
