@@ -1,6 +1,7 @@
 # cmdgenie
-cmdgenie is an AI-powered assistant for generating shell commands from the comfort of your command line. 
+![Build](https://github.com/j-dumbell/cmdgenie/actions/workflows/build.yml/badge.svg)
 
+cmdgenie is an AI-powered assistant for generating shell commands from the comfort of your command line. 
 
 
 ## Installation
