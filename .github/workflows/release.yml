@@ -9,9 +9,6 @@ on:
       tag:
         description: 'Git tag to create a release for'
         required: true
-      description:
-        description: 'Description for the GitHub Release'
-        required: true
 
 permissions:
   contents: write
