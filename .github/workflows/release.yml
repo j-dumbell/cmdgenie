@@ -43,6 +43,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          body: ${{ env.description }}
+          name: ${{ env.tag }}
+          generate_release_notes: true
           tag_name: ${{ env.tag }}
           files: 'bin/*'
