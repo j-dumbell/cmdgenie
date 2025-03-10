@@ -28,8 +28,17 @@ jobs:
       - name: Build
         run: make build
 
+      - name: Determine tag
+        id: get_tag
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "tag=${{ inputs.tag }}" >> $GITHUB_ENV
+          else
+            echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          fi
+
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.tag || github.ref }}
+          tag_name: ${{ env.tag }}
           files: 'bin/*'
