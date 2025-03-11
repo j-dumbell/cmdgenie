@@ -56,8 +56,6 @@ func BuildContext(getOS OSGetter, verbosity Verbosity) string {
 	)
 }
 
-var allowedOS = []string{"darwin", "linux", "windows"}
-
 type OSGetter func() string
 
 func GetOS() string {
