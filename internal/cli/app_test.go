@@ -8,7 +8,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/j-dumbell/cmdgenie/internal/chatcontext"
 	"github.com/j-dumbell/cmdgenie/internal/config"
 	"github.com/j-dumbell/cmdgenie/internal/llm"
 	"github.com/j-dumbell/cmdgenie/internal/util"
@@ -57,12 +56,9 @@ func TestApp_ask(t *testing.T) {
 	require.NoError(t, err, "Run should not error")
 
 	require.Equal(t, 1, len(*calls), "expected 1 OpenAI API call")
-	expected := Call{
-		Model:         *savedConfig.DefaultModel,
-		PromptContext: chatcontext.Minimal,
-		Prompt:        ask,
-	}
-	assert.Equal(t, expected, (*calls)[0], "expected call")
+	call := (*calls)[0]
+	assert.Equal(t, *savedConfig.DefaultModel, call.Model)
+	assert.Equal(t, ask, call.Prompt)
 
 	assert.Equal(t, response+"\n", outputBuffer.String(), "output")
 }

@@ -85,13 +85,15 @@ func NewApp(
 						return ErrOpenAIAPIKeyNotSet
 					}
 
-					promptContext := chatcontext.Minimal
+					verbosity := chatcontext.VerbosityMinimal
 					if cmd.Bool(verboseFlag.Name) {
-						promptContext = chatcontext.Verbose
+						verbosity = chatcontext.VerbosityVerbose
 					}
 
+					chatContext := chatcontext.BuildContext(chatcontext.GetOS, verbosity)
+
 					openAIClient := openAIClientFactory(*cfg.OpenAIAPIKey)
-					response, err := openAIClient.Ask(ctx, cmd.String(modelFlag.Name), promptContext, prompt)
+					response, err := openAIClient.Ask(ctx, cmd.String(modelFlag.Name), chatContext, prompt)
 					if err != nil {
 						return err
 					}
