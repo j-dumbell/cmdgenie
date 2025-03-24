@@ -8,6 +8,11 @@
 
 cmdgenie is an AI-powered assistant for generating shell commands from the comfort of your command line.
 
+### Features
+- **OS-aware**: cmdgenie returns operating system-appropriate commands.
+- **Verbosity controls**: return the command only, or include descriptions and examples.
+- **Configurable model**: choose from any of the supported OpenAI models.
+- **No Dependencies**: a standalone binary with no external dependencies. Just download and run!
 
 ## Installation
 

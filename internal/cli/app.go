@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"slices"
 	"strings"
 
 	"github.com/j-dumbell/cmdgenie/internal/chatcontext"
@@ -23,9 +24,15 @@ var (
 
 var (
 	modelFlag = &cli.StringFlag{
-		Name:     "model",
-		Value:    openai.ChatModelGPT4oMini,
-		Usage:    "Specify OpenAI model",
+		Name:  "model",
+		Value: openai.ChatModelGPT4oMini,
+		Usage: "Specify OpenAI model",
+		Validator: func(model string) error {
+			if slices.Contains(llm.Models, model) {
+				return nil
+			}
+			return errors.New("run `cmdgenie list-models to` list all available models ")
+		},
 		Aliases:  []string{"m"},
 		Required: false,
 	}
