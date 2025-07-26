@@ -14,17 +14,17 @@ type OpenAIClient struct {
 func NewOpenAIClient(apiKey string) OpenAIClient {
 	client := openai.NewClient(option.WithAPIKey(apiKey))
 	return OpenAIClient{
-		client: *client,
+		client: client,
 	}
 }
 
 func (client *OpenAIClient) Ask(ctx context.Context, model openai.ChatModel, systemMsg string, msg string) (string, error) {
 	chatCompletion, err := client.client.Chat.Completions.New(ctx, openai.ChatCompletionNewParams{
-		Messages: openai.F([]openai.ChatCompletionMessageParamUnion{
+		Messages: []openai.ChatCompletionMessageParamUnion{
 			openai.SystemMessage(systemMsg),
 			openai.UserMessage(msg),
-		}),
-		Model: openai.F(model),
+		},
+		Model: model,
 	})
 	if err != nil {
 		return "", err
