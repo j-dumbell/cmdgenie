@@ -7,7 +7,7 @@ import (
 )
 
 const minimalContext = "Your responses should contain only the command itself, without explanations or additional text. " +
-	"If multiple commands are required, provide them on separate lines." +
+	"If multiple commands are required, provide them on separate lines. " +
 	"When returning the shell command, do not format in code blocks and return as plain text instead."
 
 const verboseContext = "You should provide detailed responses that include explanations. " +
