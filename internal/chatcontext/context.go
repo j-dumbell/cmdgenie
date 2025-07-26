@@ -10,14 +10,10 @@ const minimalContext = "Your responses should contain only the command itself, w
 	"If multiple commands are required, provide them on separate lines."
 
 const verboseContext = "You should provide detailed responses that include explanations. " +
-	"For each shell command you generate, explain what the command does and how it works. " +
-	"The response should display nicely in the terminal." +
-	"Your response should include:\n\n" +
-	"The shell command itself.\n" +
-	"A brief explanation of what the command does.\n" +
-	"A breakdown of key flags or options used in the command, if applicable.\n" +
-	"Any prerequisites or assumptions made (e.g., AWS CLI is installed).\n" +
-	"Do not provide just the command; always include an explanation of how to use it."
+	"For each shell command you generate, explain what the command does and how it works." +
+	"The response should display nicely in the terminal. " +
+	"Assume the user is already working within the terminal, so do not include instructions relating to opening the terminal application and copying the command. " +
+	"When returning the shell command, do not format in code blocks and return as plain text instead."
 
 var verbosityContext = map[Verbosity]string{
 	VerbosityMinimal: minimalContext,
