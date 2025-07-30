@@ -4,9 +4,11 @@
 ![License](https://img.shields.io/github/license/j-dumbell/cmdgenie)
 ![Go version](https://img.shields.io/github/go-mod/go-version/j-dumbell/cmdgenie)
 
-<img src="assets/mascot.webp" alt="Mascot" width="300">
-
 cmdgenie is an AI-powered assistant that generates shell commands from the comfort of your command line.
+
+<p align="center">
+  <img src="assets/cmdgenie-demo.svg" width="800" alt="CmdGenie terminal demo">
+</p>
 
 ### Features
 - **OS-aware**: cmdgenie returns operating system-appropriate commands.
